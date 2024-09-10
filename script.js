@@ -117,7 +117,7 @@ function changeLogoColor() {
     // add a color to DVD logo
     dvdInfo.color = [randomizer(0, 255), randomizer(0, 255), randomizer(0, 255)];
     // verifies if the color is black
-    if (dvdInfo.color == [0, 0, 0]) {
+    if (dvdInfo.color[0] < 20 && dvdInfo.color[1] < 20 && dvdInfo.color[2] < 20) {
         return changeLogoColor();
     }
 };
