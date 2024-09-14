@@ -1,21 +1,23 @@
-// Creating the main canva
-const canvas = document.querySelector("canvas");
-const canvasContext = canvas.getContext("2d");
+// Setting up canvas...
+const canvas = document.querySelector('canvas'); // Constant for canva
+const canvaContext = canvas.getContext('2d'); // Canva drawing context
+// in this case two-dimensional ('2d' of 2-dimensional)
 
 // Creating the color filter canva
-const colorCanvas = document.createElement("canvas");
+const colorCanvas = document.createElement("canvas"); // This canva is
+// used to create a image copy with another color
 const colorCanvasContext = colorCanvas.getContext("2d");
 
 
 // Function to adjust the canvas size
 function adjustCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth; // Canvas width receive window width value
+    canvas.height = window.innerHeight; // Canvas height receive window height value
 }
 
-// evoking adjustyPage when the page window is resized
+// Evoking adjustyPage when the page window is resized
 window.addEventListener("resize", adjustCanvas);
-// resize the canvas in its loading
+// Resizes the canvas in its loading 
 adjustCanvas();
 
 
@@ -138,9 +140,4 @@ function animationLoop() {
 dvdLogo.onload = () => {
     // starts the animation
     animationLoop();
-};
-
-// Handle image load errors
-dvdLogo.onerror = () => {
-    console.error('Error loading the image.');
 };
