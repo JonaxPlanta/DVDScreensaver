@@ -1,6 +1,6 @@
 // Setting up canvas...
 const canvas = document.querySelector('canvas'); // Constant for canva
-const canvaContext = canvas.getContext('2d'); // Canva drawing context
+const canvasContext = canvas.getContext('2d'); // Canva drawing context
 // in this case two-dimensional ('2d' of 2-dimensional)
 
 // Creating the color filter canva
@@ -23,7 +23,7 @@ adjustCanvas();
 
 // Function to generate a random number:
 function randomizer(minimum, maximum) {
-    // calculation to obtain a number from minimum and maximum params:
+    // Calculation to obtain a number from minimum and maximum parameters:
     return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
 }
 
@@ -31,113 +31,94 @@ function randomizer(minimum, maximum) {
 // Assinging the DVD logo as a image
 const dvdLogo = new Image();
 dvdLogo.src = 'assets/dvdLogo.svg';
-// creating a object for DVD with some params
+// Creating a object for DVD with some parameters
 const dvdInfo = {
-    // position in X plane
-    positionX: 100,
-    // position in Y plane
-    positionY: 100,
-    // logo width
-    width: 180,
-    // logo height
-    height: 90,
-    // speed in X plane
-    speedX: 2,
-    // speed in Y plane
-    speedY: 2,
-    // initial color (white)
-    color: [255, 255, 255]
+    positionX: 100, // position in X plane
+    positionY: 100, // position in Y plane
+    width: 180, // logo width
+    height: 90, // logo height
+    speedX: 2, // speed in X plane
+    speedY: 2, // speed in Y plane
+    color: [255, 255, 255] // initial color white (rgb(255, 255, 255))
 };
 
 
 // Function to apply a color to the image using the color canvas
 function applyColor(appliedColor) {
-    // defines the color canvas size
-    colorCanvas.width = dvdInfo.width;
-    colorCanvas.height = dvdInfo.height;
+    // Defines the color canvas size
+    colorCanvas.width = dvdInfo.width; // Color canvas width receive DVD logo image width value
+    colorCanvas.height = dvdInfo.height; // Color canvas height receive DVD logo image height value
+    
+    colorCanvasContext.clearRect(0, 0, colorCanvas.width, colorCanvas.height); // Creates a clear retangle to draw the image 
+    colorCanvasContext.drawImage(dvdLogo, 0, 0, dvdInfo.width, dvdInfo.height); // Draws the image in the center of color canvas
 
-    // creates a clear retangle to draw the image 
-    colorCanvasContext.clearRect(0, 0, colorCanvas.width, colorCanvas.height);
-    // draws the image in center of color canvas
-    colorCanvasContext.drawImage(dvdLogo, 0, 0, dvdInfo.width, dvdInfo.height);
-
-    // obtaining the pixel color datas of image and stores in pixelData array
+    // Obtaining the pixel color datas of image and stores in pixelData array
     const imagePixelData = colorCanvasContext.getImageData(0, 0, dvdInfo.width, dvdInfo.height);
-    const pixelData = imagePixelData.data;
+    const pixelData = imagePixelData.data; // That is the array
 
-    // applies the color filter to each pixel
-    // the for skips 4 array indexes because rgba have 4 values (red, green, blue, alpha)
+    // Applies the color filter to each pixel (it changes the image color)
+    // The loop skips 4 array indexes because rgba have 4 values (rgba(red, green, blue, alpha))
     for (let index = 0; index < pixelData.length; index += 4) {
-        pixelData[index] = appliedColor[0] // red index
-        pixelData[index + 1] = appliedColor[1] // green index
-        pixelData[index + 2] = appliedColor[2] // blue index
-        // pixelData[index + 3] = appliedColor[3] // alpha index (we don't need change it)
+        pixelData[index] = appliedColor[0] // Red index
+        pixelData[index + 1] = appliedColor[1] // Green index
+        pixelData[index + 2] = appliedColor[2] // Blue index
+        // pixelData[index + 3] = appliedColor[3] // Alpha index (don't need change it)
     }
 
-    // puts the modified colors value to the canvas to obtain a colored image
+    // Puts the modified colors value to the canvas to obtain a different color image
     colorCanvasContext.putImageData(imagePixelData, 0, 0);
 }
 
 
 // Function to draw the DVD logo 
 function drawDVDLogo() {
-    // cleans the canvas area to the next drawing
-    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height); // Cleans the canvas area to the next drawing
 
-    // aplies the current color
-    applyColor(dvdInfo.color);
-    // draws the DVD logo in it's current position 
+    applyColor(dvdInfo.color); // Applies the current color
+    // Draws the DVD logo in it's current position 
     canvasContext.drawImage(colorCanvas, dvdInfo.positionX, dvdInfo.positionY, dvdInfo.width, dvdInfo.height);
 }
 
 // Function to update the logo position and verify the collisions
 function updateLogoPosition() {
-    // updates the logo position based in it's speed
-    dvdInfo.positionX += dvdInfo.speedX;
-    dvdInfo.positionY += dvdInfo.speedY;
+    // Updates the logo position based in it's speed
+    dvdInfo.positionX += dvdInfo.speedX; // X plane position
+    dvdInfo.positionY += dvdInfo.speedY; // Y plane position
 
-    // verifies collision with left or right walls
+    // Verifies collision with left or right walls
     if (dvdInfo.positionX + dvdInfo.width >= canvas.width || dvdInfo.positionX <= 0) {
-        // reverses horizintal direction
-        dvdInfo.speedX *= -1;
-        // changes the logo color
-        changeLogoColor();
+        dvdInfo.speedX *= -1; // Reverses horizintal direction
+        changeLogoColor(); // Changes the logo color
     }
-
-    // verifies collision with top or bottom walls
+    // Verifies collision with top or bottom walls
     if (dvdInfo.positionY + dvdInfo.height >= canvas.height || dvdInfo.positionY <= 0) {
-        // reverses horizintal direction
-        dvdInfo.speedY *= -1;
-        // changes the logo color
-        changeLogoColor();
+        dvdInfo.speedY *= -1; // Reverses vertical direction
+        changeLogoColor(); // Changes the logo color
     }
 };
 
 
 // Function to randomly change the logo color
 function changeLogoColor() {
-    // add a color to DVD logo
+    // Add a color to DVD logo
     dvdInfo.color = [randomizer(0, 255), randomizer(0, 255), randomizer(0, 255)];
-    // verifies if the color is black
+    // Verifies if the color is darker than background so the logo can be seen
     if (dvdInfo.color[0] < 20 && dvdInfo.color[1] < 20 && dvdInfo.color[2] < 20) {
-        return changeLogoColor();
+        return changeLogoColor(); // Evolkes the image color change function
     }
 };
 
 
-// Function to node the animation
+// Function to run the animation
 function animationLoop() {
-    // drawing the DVD logo
-    drawDVDLogo();
-    // updating the DVD logo position
-    updateLogoPosition();
+    drawDVDLogo(); // Drawing the DVD logo
+    updateLogoPosition();  // Updating the DVD logo position
 
-    // requesting to browser to run te animation in next frame
-    requestAnimationFrame(animationLoop);
+    // Requesting to repeat the loopCode function
+    requestAnimationFrame(animationLoop); // This loop creates a animation
 };
 
-// wait until the image loads to begin the animation
+// Wait until the image loads to begin the animation
 dvdLogo.onload = () => {
-    // starts the animation
-    animationLoop();
+    animationLoop(); // Starts the animation
 };
