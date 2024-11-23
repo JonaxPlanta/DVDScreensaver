@@ -78,13 +78,15 @@ This is **dependences** to run the program:
 7. Wait until the site load completelly
 
     #### OR Acess it with the following URL:
-```
-https://jonaxplanta.github.io/DVDScreensaver/
-```
+    ```
+    https://jonaxplanta.github.io/DVDScreensaver/
+    ```
 
 ### Image Reference
-    - The **Vectorized Logo Image** can be found in the following link
-    ```
-    https://pt.m.wikipedia.org/wiki/Ficheiro:DVD_logo.svg
-    ```
+
+    - The **Vectorized Logo Image** can be found in the following link:
+```
+https://pt.m.wikipedia.org/wiki/Ficheiro:DVD_logo.svg
+```
+
 
